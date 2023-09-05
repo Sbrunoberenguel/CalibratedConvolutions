@@ -1,6 +1,6 @@
 # Calibrated Convolutions
 
-The presented code belongs to the investigation from the Accepted paper to the BMVC23 Conference: **Convolution kernel adaptation to calibrated fisheye**
+The presented code belongs to the investigation from the Accepted paper to the BMVC23 Conference: **Calibrated deformable kernels for Convolutional Neural Networks**
 
 We provide 2 implementations. 
 
