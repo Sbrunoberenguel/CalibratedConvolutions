@@ -1,0 +1,11 @@
+cx -> coordinate X of optical centre
+cy -> coordinate Y of optical centre
+fx -> focal lenght in X coordinate
+fy -> focal lenght in Y corodinate
+W -> Image width resolution
+H -> Image height resolution
+FOV -> Field of view
+k1 -> Kannala Brandt parameter for x**3
+k2 -> Kannala Brandt parameter for x**5
+k3 -> Kannala Brandt parameter for x**7
+k4 -> Kannala Brandt parameter for x**9
