@@ -59,7 +59,6 @@ def distortion_aware_map(img_W, img_H, k_W, k_H, s_width, s_height, intrinsics=N
                 return x_n
         return x_n
 
-
     def KB_coord(img_W,img_H,k_W,k_H,u,v,rays,h_grid,w_grid):
         scale = (camres_W+pad_W) / img_W 
         cx = fe_cx * ((img_W-(pad_W/scale))/camres_W)
@@ -75,27 +74,29 @@ def distortion_aware_map(img_W, img_H, k_W, k_H, s_width, s_height, intrinsics=N
         phi = math.atan2(my,mx)
         theta = KB_inv(r0_0)
 
-        ROT = rotation_matrix((0,0,1),phi)
-        ROT = torch.matmul(ROT,rotation_matrix((0,1,0),theta))#np.eye(3)
+        vec = torch.FloatTensor([np.cos(phi)*np.sin(theta),
+                                 np.sin(phi)*np.sin(theta),
+                                 np.cos(theta)])
 
+        axis = torch.cross(vec,torch.FloatTensor([0,0,1]))
+        ROT = rotation_matrix(axis,-theta)
         rays = torch.matmul(ROT,rays)
+        
         rays = rays.reshape(3,k_H,k_W)
 
-        phi_k = torch.atan2(rays[1,...],rays[0,...]).T
-        theta_k = torch.acos(torch.clamp(rays[2,...],-1,1)).T
-
+        phi_k = torch.atan2(rays[1,...],rays[0,...])
+        theta_k = torch.acos(torch.clamp(rays[2,...],-1,1))
+    
         r = KB_dir(theta_k)
 
         u_k = (fxk * r * torch.cos(phi_k) + cx)
         v_k = (fyk * r * torch.sin(phi_k) + cy)
 
-        roi_x = w_grid + u
-        roi_y = h_grid + v
+        oK_x = w_grid + u
+        oK_y = h_grid + v
         
-        offsets_x = u_k - roi_x
-        offsets_y = v_k - roi_y
-        offsets_x = torch.clamp(offsets_x,-u,img_W-u)
-        offsets_y = torch.clamp(offsets_y,-v,img_H-v)    
+        offsets_x = u_k - oK_x
+        offsets_y = v_k - oK_y
         return offsets_x, offsets_y
     
     offset = torch.zeros(2*k_H*k_W,img_H,img_W, device='cpu', dtype=torch.float)
