@@ -1,6 +1,7 @@
 # Calibrated Convolutions
 
-The presented code belongs to the investigation from the Accepted paper to the BMVC23 Conference: **Convolution kernel adaptation to calibrated fisheye**
+The presented code belongs to the investigation from the Oral presentation at the BMVC23 Conference: [Convolution kernel adaptation to calibrated fisheye](https://papers.bmvc2023.org/0721.pdf). <p>
+This presentation is also in [video](https://bmvc2022.mpi-inf.mpg.de/BMVC2023/0721_video.mp4).
 
 We provide 2 implementations. 
 
